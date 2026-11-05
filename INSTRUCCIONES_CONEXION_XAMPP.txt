@@ -1,0 +1,73 @@
+URABÁ CREA — INSTALACIÓN DEL FRONTEND CON BACKEND PHP + MYSQL
+==============================================================
+
+REQUISITOS
+- XAMPP con Apache, PHP y MySQL/MariaDB.
+- Navegador web.
+- Proyecto instalado dentro de C:\\xampp\\htdocs\\Uraba_Crea.
+
+1. INSTALAR LOS ARCHIVOS
+- Haz una copia de seguridad de tu carpeta anterior Uraba_Crea.
+- Extrae este ZIP.
+- Copia la carpeta Uraba_Crea que viene dentro del ZIP a C:\\xampp\\htdocs.
+- Debe quedar esta ruta: C:\\xampp\\htdocs\\Uraba_Crea\\index.html
+- No abras el HTML con Live Server: PHP necesita Apache.
+
+2. ENCENDER XAMPP
+- Abre XAMPP Control Panel.
+- Inicia Apache y MySQL. Ambos deben indicar Running.
+
+3. CREAR / VERIFICAR LA BASE DE DATOS
+- Abre http://localhost/phpmyadmin
+- Busca la base de datos uraba_crea.
+- Si NO existe, selecciona Importar y elige:
+  C:\\xampp\\htdocs\\Uraba_Crea\\database\\uraba_crea.sql
+- Ejecuta la importación.
+- Si ya existe y contiene las tablas users, products, orders y order_items, no hace falta importarla otra vez.
+- El SQL crea ocho productos iniciales. Los registros de prueba previos no se eliminan.
+
+4. CONFIGURAR MYSQL
+Abre config/database.php. La configuración predeterminada de XAMPP es:
+- Host: localhost
+- Base de datos: uraba_crea
+- Usuario: root
+- Contraseña: vacía
+Si tu usuario root tiene contraseña, actualiza $pass en ese archivo.
+
+5. PROBAR LA CONEXIÓN
+Abre estas direcciones en Chrome:
+- http://localhost/Uraba_Crea/api/index.php?resource=health
+  Debe responder ok:true y database:uraba_crea.
+- http://localhost/Uraba_Crea/api/index.php?resource=products
+  Debe devolver JSON con los productos.
+
+6. USAR LA PÁGINA
+Abre http://localhost/Uraba_Crea/
+- Crear cuenta: guarda nombre, correo, rol y contraseña en MySQL. La contraseña se guarda con password_hash.
+- Ingresar: valida correo y contraseña y crea una sesión PHP.
+- Cerrar sesión: haz clic en el botón que muestra el nombre de la cuenta y confirma.
+- Catálogo: carga los productos activos desde MySQL.
+- Carrito: conserva la selección en el navegador.
+- Continuar compra: requiere una cuenta iniciada y registra un pedido en MySQL. El backend valida existencias y descuenta stock dentro de una transacción.
+- Panel del artesano: solo aparece para cuentas con rol artesano o admin. Permite crear, editar y retirar productos propios; el servidor comprueba la propiedad del producto.
+
+7. IMPORTANTE SOBRE CUENTAS Y PRODUCTOS
+- Registra una cuenta nueva y selecciona “Artesano/a” para probar el panel de artesano.
+- Registra otra cuenta con rol “Cliente” para probar compras.
+- Los productos iniciales del SQL no tienen artesano asignado, porque son productos de muestra. Una cuenta artesana nueva podrá crear sus propias publicaciones.
+- No hay un usuario administrador precreado. No cambies manualmente el rol a admin salvo que sea necesario para la administración del proyecto.
+
+8. ALCANCE DE PAGOS
+El botón de compra crea un pedido y actualiza existencias en MySQL. Este proyecto todavía NO cobra dinero: no incluye integración con una pasarela de pago real (por ejemplo, Wompi, Mercado Pago o PayU), ni confirmación bancaria. Para cobrar en línea se necesita contratar/configurar una pasarela y sus credenciales.
+
+SOLUCIÓN DE PROBLEMAS
+- ERR_CONNECTION_REFUSED: Apache no está encendido o el puerto está ocupado.
+- Error de conexión MySQL / HTTP 500: verifica MySQL, nombre de base de datos y config/database.php.
+- “Correo o contraseña incorrectos”: revisa el correo y la contraseña usados al registrarte.
+- “Debes iniciar sesión con un perfil autorizado”: entra con una cuenta Artesano/a para abrir el panel.
+- Si cambiaste los archivos, recarga con Ctrl + F5.
+
+COMPROBACIONES REALIZADAS EN ESTA entrega
+- JavaScript: validación de sintaxis con Node.js.
+- PHP API: validación de sintaxis con php -l.
+- El servidor MySQL de tu computador no está disponible en este entorno de preparación, por lo que debes confirmar health y los flujos de registro/pedido en tu XAMPP.
