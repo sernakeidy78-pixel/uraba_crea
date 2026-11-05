@@ -1,0 +1,34 @@
+DEMOSTRACION DE INTEROPERABILIDAD - URABA CREA
+
+1. Copia la carpeta completa Uraba_Crea dentro de C:\xampp\htdocs\
+2. Inicia Apache y MySQL desde XAMPP.
+3. Abre http://localhost/Uraba_Crea/interoperabilidad.html
+4. Completa los datos de prueba y pulsa "Enviar datos al servicio externo simulado".
+5. La pantalla muestra el JSON enviado y el JSON recibido, además del número de seguimiento ficticio.
+
+COMO FUNCIONA
+- La página envía una solicitud HTTP POST con Content-Type: application/json.
+- El endpoint api/logistics-simulator.php recibe y valida el JSON.
+- El endpoint devuelve una respuesta JSON con proveedor, estado y número de seguimiento de demostración.
+- Es un simulador local para demostrar el intercambio de información. No se conecta a una transportadora real, no crea guías reales y no requiere pagos.
+
+PARA LA SUSTENTACION
+"Urabá Crea demuestra interoperabilidad mediante el intercambio de datos entre la aplicación y un servicio logístico simulado. La comunicación se realiza mediante una API HTTP que utiliza el método POST y el formato JSON. El servicio recibe los datos del pedido y responde con información de seguimiento de prueba. La integración con una empresa transportadora real queda como una fase futura."
+
+
+SEGURIDAD DE LOS DATOS
+La página incluye una sección que explica las medidas presentes en el código:
+- Contraseñas: password_hash() y password_verify() en el módulo de autenticación.
+- Base de datos: consultas preparadas PDO en el backend.
+- Validación: el simulador verifica el método POST, Content-Type JSON, JSON válido,
+  campos obligatorios, longitudes y un tamaño máximo de solicitud de 8 KB.
+- Respuestas: no expone errores internos y añade cabeceras HTTP de seguridad.
+- Privacidad: los datos de esta demostración no se guardan ni se envían a terceros.
+
+Antes de publicar en internet:
+- Configurar HTTPS.
+- Usar usuario y contraseña MySQL exclusivos del hosting.
+- Mantener credenciales fuera de GitHub y del directorio público.
+- No utilizar datos personales reales en la demostración.
+- Revisar permisos, copias de seguridad y actualizaciones.
+La sección educativa no significa que el sistema haya pasado una auditoría de seguridad.

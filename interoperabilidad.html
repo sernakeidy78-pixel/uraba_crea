@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interoperabilidad | Urabá Crea</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body{font-family:'DM Sans',sans-serif;background:#fbf8f2;color:#28352d}.integration-wrap{max-width:1000px;margin:0 auto;padding:3rem 1rem 5rem}.integration-card{background:#fff;border:1px solid #e9e3d8;border-radius:20px;padding:clamp(1.2rem,3vw,2rem);box-shadow:0 12px 35px #3d38240c}.eyebrow{letter-spacing:.12em;font-size:.76rem;font-weight:700;color:#9a7042}.integration-title{font-family:'Playfair Display',serif}.step-node{background:#f7f3eb;border:1px solid #e9e3d8;border-radius:14px;padding:1rem;height:100%}.step-node i{font-size:1.5rem;color:#9a7042}.json-box{background:#18231e;color:#d7f2df;border-radius:12px;padding:1rem;white-space:pre-wrap;overflow-wrap:anywhere;font: .85rem/1.55 ui-monospace,monospace;min-height:120px}.result-panel{display:none}.result-panel.show{display:block}.form-control:focus{border-color:#9a7042;box-shadow:0 0 0 .2rem #9a704222}
+  </style>
+</head>
+<body>
+  <div class="announcement">Hecho a mano en Urabá <span aria-hidden="true">·</span> Apoya el talento de nuestros artesanos</div>
+  <header class="site-header"><nav class="navbar container py-3"><a class="brand d-flex align-items-center gap-2 text-decoration-none" href="index.html"><span class="brand-mark"><i class="bi bi-flower1"></i></span><span><strong>urabá crea</strong><small>ARTESANÍAS CON HISTORIA</small></span></a><a class="btn btn-outline-brand" href="index.html"><i class="bi bi-arrow-left me-1"></i>Volver a la tienda</a></nav></header>
+  <main class="integration-wrap">
+    <p class="eyebrow mb-2">TECNOLOGÍA QUE CONECTA</p>
+    <h1 class="integration-title display-5 mb-3">Demostración de interoperabilidad</h1>
+    <p class="lead mb-4">Esta pantalla demuestra cómo Urabá Crea intercambia información con otro servicio mediante una API REST y mensajes JSON.</p>
+    <div class="row g-3 mb-4">
+      <div class="col-md-4"><div class="step-node"><i class="bi bi-shop d-block mb-2"></i><strong>1. Urabá Crea</strong><p class="small mb-0 mt-2">Prepara los datos del pedido y los envía.</p></div></div>
+      <div class="col-md-4"><div class="step-node"><i class="bi bi-arrow-left-right d-block mb-2"></i><strong>2. API REST + JSON</strong><p class="small mb-0 mt-2">Transporta la información en un formato común.</p></div></div>
+      <div class="col-md-4"><div class="step-node"><i class="bi bi-truck d-block mb-2"></i><strong>3. Servicio logístico simulado</strong><p class="small mb-0 mt-2">Recibe los datos y devuelve una respuesta.</p></div></div>
+    </div>
+    <div class="integration-card mb-4">
+      <h2 class="h4 integration-title mb-1">Enviar solicitud de envío</h2><p class="text-secondary small mb-4">Completa los datos de prueba y presiona el botón. No se realiza un envío real ni se necesita pagar un servicio externo.</p>
+      <form id="integrationForm" class="row g-3">
+        <div class="col-sm-4"><label class="form-label" for="orderId">Número de pedido</label><input class="form-control" id="orderId" type="number" min="1" value="1001" required></div>
+        <div class="col-sm-8"><label class="form-label" for="recipient">Nombre del destinatario</label><input class="form-control" id="recipient" maxlength="100" value="Cliente de prueba" required></div>
+        <div class="col-12"><label class="form-label" for="destination">Destino</label><input class="form-control" id="destination" maxlength="140" value="Apartadó, Antioquia" required></div>
+        <div class="col-12"><label class="form-label" for="description">Descripción del paquete</label><input class="form-control" id="description" maxlength="140" value="Artesanías de Urabá" required></div>
+        <div class="col-12"><button class="btn btn-brand btn-lg" id="sendButton" type="submit"><i class="bi bi-send me-2"></i>Enviar datos al servicio externo simulado</button></div>
+      </form>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6"><h3 class="h6 fw-bold">JSON enviado (solicitud)</h3><pre class="json-box" id="requestJson">Aquí aparecerán los datos enviados.</pre></div>
+      <div class="col-lg-6"><h3 class="h6 fw-bold">JSON recibido (respuesta)</h3><pre class="json-box" id="responseJson">Aquí aparecerá la respuesta del servicio.</pre></div>
+    </div>
+    <div class="integration-card result-panel mt-4" id="resultPanel" aria-live="polite">
+      <div class="d-flex align-items-center gap-2 mb-3"><i class="bi bi-check-circle-fill text-success fs-4"></i><strong>Intercambio de información exitoso</strong></div>
+      <div class="row g-3"><div class="col-sm-6"><span class="text-secondary small d-block">Proveedor simulado</span><strong id="providerName">—</strong></div><div class="col-sm-6"><span class="text-secondary small d-block">Número de seguimiento de prueba</span><strong id="trackingNumber">—</strong></div><div class="col-sm-6"><span class="text-secondary small d-block">Estado</span><strong id="shipmentStatus">—</strong></div><div class="col-sm-6"><span class="text-secondary small d-block">Entrega estimada de prueba</span><strong id="deliveryDate">—</strong></div></div>
+      <p class="small text-secondary mt-3 mb-0">La respuesta confirma la comunicación entre dos endpoints de demostración. El proveedor, la guía y la fecha son ficticios y no representan un transporte contratado.</p>
+    </div>
+
+    <section class="integration-card mt-4" aria-labelledby="securityTitle">
+      <p class="eyebrow mb-2">PROTECCIÓN DE LA INFORMACIÓN</p>
+      <h2 class="h3 integration-title mb-2" id="securityTitle"><i class="bi bi-shield-lock me-2"></i>Seguridad de los datos</h2>
+      <p class="text-secondary mb-4">Urabá Crea incorpora medidas para proteger la información durante el registro, la consulta y el intercambio de datos.</p>
+      <div class="row g-3">
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-key d-block mb-2"></i><strong>Contraseñas protegidas</strong><p class="small mb-0 mt-2">El backend utiliza <code>password_hash()</code> para guardar contraseñas como hashes y <code>password_verify()</code> para validarlas. No se guardan en texto plano.</p></div></div>
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-database-lock d-block mb-2"></i><strong>Consultas preparadas</strong><p class="small mb-0 mt-2">Las operaciones SQL utilizan consultas preparadas PDO para reducir el riesgo de inyección SQL.</p></div></div>
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-check2-square d-block mb-2"></i><strong>Validación de datos</strong><p class="small mb-0 mt-2">La API valida campos obligatorios, formatos, tipos y longitudes antes de procesar una solicitud.</p></div></div>
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-file-earmark-lock d-block mb-2"></i><strong>Intercambio controlado</strong><p class="small mb-0 mt-2">El simulador exige POST y JSON, limita el tamaño de la solicitud y devuelve errores generales sin exponer detalles internos.</p></div></div>
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-eye-slash d-block mb-2"></i><strong>Privacidad en la demostración</strong><p class="small mb-0 mt-2">Los datos de prueba no se almacenan ni se envían a una transportadora real.</p></div></div>
+        <div class="col-md-6"><div class="step-node"><i class="bi bi-shield-check d-block mb-2"></i><strong>Cabeceras de seguridad</strong><p class="small mb-0 mt-2">El servicio añade cabeceras para evitar la interpretación de contenido como scripts, restringir el uso en marcos y evitar caché de respuestas.</p></div></div>
+      </div>
+      <div class="alert alert-warning mt-4 mb-0">
+        <strong>Para producción:</strong> publicar el sitio con HTTPS, usar credenciales de base de datos únicas y privadas, restringir permisos, mantener copias de seguridad y no subir <code>config/database.php</code> ni contraseñas a GitHub. La demostración local no sustituye una auditoría de seguridad.
+      </div>
+    </section>
+
+    <div class="alert alert-info mt-4 mb-0"><strong>Nota académica:</strong> esta demostración utiliza un endpoint PHP local que representa al sistema externo de logística. Se intercambian datos reales de prueba mediante HTTP POST y JSON; no existe conexión con una transportadora real.</div>
+  </main>
+  <script>
+    const form=document.getElementById('integrationForm');
+    form.addEventListener('submit',async(event)=>{
+      event.preventDefault();
+      const payload={orderId:Number(document.getElementById('orderId').value),recipient:document.getElementById('recipient').value.trim(),destination:document.getElementById('destination').value.trim(),description:document.getElementById('description').value.trim()};
+      const button=document.getElementById('sendButton');button.disabled=true;button.innerHTML='<span class="spinner-border spinner-border-sm me-2"></span>Enviando…';
+      document.getElementById('requestJson').textContent=JSON.stringify(payload,null,2);
+      document.getElementById('responseJson').textContent='Esperando respuesta del servicio…';document.getElementById('resultPanel').classList.remove('show');
+      try{
+        const response=await fetch('api/logistics-simulator.php',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
+        const result=await response.json();document.getElementById('responseJson').textContent=JSON.stringify(result,null,2);
+        if(!response.ok||!result.ok)throw new Error(result.error||'No fue posible completar la integración.');
+        document.getElementById('providerName').textContent=result.provider;document.getElementById('trackingNumber').textContent=result.trackingNumber;document.getElementById('shipmentStatus').textContent=result.statusLabel;document.getElementById('deliveryDate').textContent=result.estimatedDelivery;document.getElementById('resultPanel').classList.add('show');
+      }catch(error){document.getElementById('responseJson').textContent=JSON.stringify({ok:false,error:error.message},null,2);}
+      finally{button.disabled=false;button.innerHTML='<i class="bi bi-send me-2"></i>Enviar datos al servicio externo simulado';}
+    });
+  </script>
+</body>
+</html>
